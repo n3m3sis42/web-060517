@@ -1,15 +1,14 @@
 <%= form_tag '/actors', method: :get do %>
-  <%= label_tag 'actor name' %>
+  <%= label_tag 'Actor Name:' %>
   <%= text_field_tag 'actor[name]' %>
-  <%= submit_tag %>
+  <%= submit_tag "Search" %>
 <% end %>
 
+
+<h3>All Actors</h3>
 
 <ul>
 <% @actors.each do |actor| %>
   <li> <%= actor.name %></li>
 <% end %>
 </ul>
-<!-- <!-- <form > -->
-
-<!--  --> -->
