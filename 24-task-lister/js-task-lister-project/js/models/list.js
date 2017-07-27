@@ -1,7 +1,8 @@
 // List Model
 
 function createList() {
-  let id = 0
+  let id = 0  
+
   return class {
     constructor(title){
       this.title = title
@@ -10,6 +11,7 @@ function createList() {
     }
     tasks(){
       return store.tasks.filter((task) => {
+        // console.log(id)
         return task.listId == this.id;
       })
     }
@@ -23,7 +25,7 @@ function createList() {
         task.destroy()
       })
 
-      store.lists = store.lists.filter((list) => {
+      return store.lists = store.lists.filter((list) => {
         return list.id !== this.id;
       })
     }
@@ -31,3 +33,25 @@ function createList() {
 }
 
 var List = createList()
+
+
+// function find(className, id){
+//   return store[`${className}s`].filter(function(obj){
+//     return obj.id === id
+//   })
+// }
+//
+// select('task', {priority: "high"})
+//
+// function select(className, attribute){
+//   return store[`${className}s`].filter(function(obj){
+//     let key = Object.keys(attribute)[0]
+//
+//     return obj[key] === attribute[key]
+//   })
+// }
+// find('list')
+
+// class List
+// has_many :tasks, :dependent_destroy
+// end
