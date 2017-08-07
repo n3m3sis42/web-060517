@@ -141,7 +141,7 @@ In your `package.json`
 
 ```javascript
 "scripts": {
-  "start": "webpack && webpack-dev-server --hot --inline --history-api-fallback"
+  "start": "webpack && webpack-dev-server --hot --inline"
 }
 ```
 
