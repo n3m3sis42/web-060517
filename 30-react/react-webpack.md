@@ -242,6 +242,6 @@ class MyComponent extends Component {
 
 ReactDOM.render(<MyComponent />, document.getElementById('root'))
 
-```
-
-sources: '<https://www.kirupa.com/react/setting_up_react_environment.htm>', '<https://www.accelebrate.com/blog/the-real-benefits-of-the-virtual-dom-in-react-js/>' ```
+## Extra Readings
+* [Setting up React](https://www.kirupa.com/react/setting_up_react_environment.htm)
+* [Benefits of the Virtual Dom](https://www.accelebrate.com/blog/the-real-benefits-of-the-virtual-dom-in-react-js)
