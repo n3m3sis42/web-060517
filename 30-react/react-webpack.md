@@ -1,7 +1,3 @@
----
-title: Getting started w/ React and Webpack
-competencies: 'package.json, webpack.config, babel.rc, react basics'
----
 
 # Overview
 
