@@ -92,7 +92,7 @@ We will need to build a current_user/authenticate route that will check a user's
 Open up rails console and get a user in there:
 
 ```ruby
-User.create({username: 'toneloke',password:'dragons'})
+User.create({username: 'johannkerr',password:'mustlovecats'})
 ```
 
 ## Authenticating a user and returning a JWT Server-Side
@@ -109,7 +109,7 @@ $ gem 'jwt'
 We also need to provide a string that will serve as the secret signing key used in the hashing of the header and payload, to make up the third part of the JWT string
 
 ```
-secret = "railsdragons"
+secret = "supersecretcode"
 ```
 
 The algorithim as well:
@@ -122,7 +122,7 @@ algorithm = "HS256"
 >Explain JWT.encode && JWT.decode
 
 
-Let's make sure we have all the required routes. Auth is where a user will send a POST request with a username and password. I.e. this is the route they will use to login. I guess we could have called it http://localhost:3000/api/v1/auth
+Let's make sure we have all the required routes. Auth is where a user will send a POST request with a username and password. I.e. this is the route they will use to login. I guess we could have called it http://localhost:3000/api/v1/login
 
 So let's write the machinery to generate a JWT and validate it:
 
@@ -130,59 +130,54 @@ Here's some pseudo-code of what I want to do -
 
 ```ruby
 class ApplicationController < ActionController::API
-  private
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  before_action :authorized
 
-  def issue_token payload
-    JWT.encode(payload, secret, algorithm)
+
+
+  PASS = Rails.application.secrets.jwt_token
+
+  def issue_token(payload)
+    JWT.encode(payload, PASS)
   end
 
-  def authorize_user!
-    if !current_user.present?
-      render json: {error: 'No user id present'}
-    end
-  end
 
   def current_user
-    @current_user ||= User.find_by(id: token_user_id)
-  end
-
-  def token_user_id
-    decoded_token.first['user_id']
-  end
-
-  def decoded_token
-    if token
+    authenticate_or_request_with_http_token do |jwt_token, options|
       begin
-        JWT.decode(token,secret, true, {algorithm: algorithm})
+        decoded_token = JWT.decode(jwt_token, "supersecretcode")
+
       rescue JWT::DecodeError
-        return [{}]
+        return nil
       end
-    else
-      [{}]
+
+      if decoded_token[0]["user_id"]
+        @current_user ||= User.find(decoded_token[0]["user_id"])
+      else
+      end
     end
   end
 
-  def token
-    request.headers['Authorization']
+  def logged_in?
+    !!current_user
   end
 
-  def secret
-    "railsdragons"
+  def authorized
+    render json: {message: "Not welcome" }, status: 401 unless logged_in?
   end
 
-  def algorithm
-    "HS256"
-  end
+
 end
+
 
 ```
 
 
-And here is what the auth controller should look like -
+And here is what the sessions controller should look like -
 
 ```ruby
-class Api::V1::AuthController < ApplicationController
-  before_action :authorize_user!, only: [:show]
+class Api::V1::SessionsController < ApplicationController
+  skip_before_action :authorized, only: [:create]
 
   def show
     render json: {
@@ -192,19 +187,14 @@ class Api::V1::AuthController < ApplicationController
   end
 
   def create
-    # see if there is a user with this username
+
     user = User.find_by(username: params[:username])
-    # if there is, make sure that they have the correct password
-    if user.present? && user.authenticate(params[:password])
-      # if they do, render back a json response of the user info
-      # issue token
-      created_jwt = issue_token({id: user.id})
-      render json: {username: user.username,jwt: created_jwt}
+    if user && user.authenticate(params[:password])
+      payload = {user_id: user.id}
+      token = issue_token(payload)
+      render json: { jwt: token, yay: true }
     else
-      # otherwise, render back some error response
-      render json: {
-        error: 'Username or password incorrect'
-      }, status: 404
+      render json: { error: "some bad stuff happened"}
     end
   end
 end
