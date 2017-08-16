@@ -135,10 +135,10 @@ class ApplicationController < ActionController::API
 
 
 
-  PASS = Rails.application.secrets.jwt_token
+  
 
   def issue_token(payload)
-    JWT.encode(payload, PASS)
+    JWT.encode(payload, "supersecretcode")
   end
 
 
