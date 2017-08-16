@@ -172,6 +172,34 @@ end
 
 ```
 
+You will also have to edit your config/secrets.yml file to add the hidden passphrase
+
+
+`config/secrets.yml`
+```
+
+development:
+  secret_key_base: efdb4c7777c0bb82d7c61b16a3afa09b3957cd1200245b59ea111bca59adfcf794e021c543e5f0012cd9943b28148686df8ae216d32bb072d1af72c472d30e9a
+
+  jwt_token: supersecretcode
+test:
+  secret_key_base: 2e9ab4ef7423e8a3c0da4a08c17c838501630e9f79c5ac8c15ac8160495e26c44da412aa91da392c6bcce1b65b28e37bd7df3a89a8aef207ab0b7e3b8a9b235f
+
+# Do not keep production secrets in the unencrypted secrets file.
+# Instead, either read values from the environment.
+# Or, use `bin/rails secrets:setup` to configure encrypted secrets
+# and move the `production:` environment over there.
+
+production:
+  secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+
+  jwt_token: <%= ENV['JWT_TOKEN'] %>
+
+
+```
+
+
+
 
 And here is what the sessions controller should look like -
 
