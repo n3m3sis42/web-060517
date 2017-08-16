@@ -9,9 +9,6 @@ class TodoForm extends React.Component {
         this.state = {
             task: ""
         }
-
-
-        console.log(this)
     }
 
     onSubmit = (event) => {
@@ -27,14 +24,13 @@ class TodoForm extends React.Component {
 
 
     handleInputChange = (e) => {
-      console.log(e.target.value)
       this.setState({
         task: e.target.value
       })
     }
 
     render() {
-      console.log("Rendering from form state:", this.state.task)
+
         return (
         <div id="todo-form">
           <form action="" className="ui form" onSubmit={this.onSubmit}>

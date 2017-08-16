@@ -16,6 +16,15 @@ class App extends Component {
   }
 
 
+  componentWillMount() {
+    console.log("App Mounting")
+  }
+
+  componentDidMount() {
+    console.log("App has Mounted")
+  }
+
+
   removeTodo = (task) => {
     const todos = this.state.todos
     const indexOfTask = todos.indexOf(task)
@@ -37,8 +46,8 @@ class App extends Component {
 
 
   render() {
-
-    console.log("Rendering state:", this.state)
+    console.log("Rendering: App")
+    
     return (
       <div className="ui grid two column centered">
         <div className="column">
