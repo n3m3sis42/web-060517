@@ -302,6 +302,7 @@ componentWillMount(){
    }
 ```
 
+
 ### Authorization
 
 I want to restrict users from going to the cards or home page unless the are logged in.
