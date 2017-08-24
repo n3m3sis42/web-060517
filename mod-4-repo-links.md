@@ -5,5 +5,5 @@ Group Members: Johann
 [Back End](https://github.com/johannkerr/catsrightmeowapi)  
 
 QSmart: Joe, Will, and David
-Front end: https://github.com/davidtom/qsmart-react
-Back end: https://github.com/davidtom/qsmart-api
+[Front End](https://github.com/davidtom/qsmart-react)
+[Back End](https://github.com/davidtom/qsmart-api)
